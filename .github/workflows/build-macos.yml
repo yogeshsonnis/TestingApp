@@ -24,7 +24,7 @@ jobs:
       run: dotnet restore TestingApp.csproj
 
     - name: 🚀 Publish .app for Mac Catalyst
-      run: dotnet publish IphoneCollector.csproj -f:net8.0-maccatalyst -c:Release
+      run: dotnet publish TestingApp.csproj -f:net8.0-maccatalyst -c:Release
 
     - name: 📁 Zip the .app
       run: |
