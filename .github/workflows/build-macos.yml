@@ -21,18 +21,18 @@ jobs:
         dotnet workload install maui --skip-sign-check
 
     - name: 🔄 Restore dependencies
-      run: dotnet restore TestingApp.csproj
+      run: dotnet restore TestingApp/TestingApp.csproj
 
     - name: 🚀 Publish .app for Mac Catalyst
-      run: dotnet publish TestingApp.csproj -f:net8.0-maccatalyst -c:Release
+      run: dotnet publish TestingApp/TestingApp.csproj -f:net8.0-maccatalyst -c:Release
 
     - name: 📁 Zip the .app
       run: |
-        cd bin/Release/net8.0-maccatalyst/osx-x64/publish/
+        cd TestingApp/bin/Release/net8.0-maccatalyst/osx-x64/publish/
         zip -r TestingApp-macOS.zip *.app
 
     - name: ☁️ Upload zipped .app
       uses: actions/upload-artifact@v4
       with:
-        name: IphoneCollector-macOS
-        path: bin/Release/net8.0-maccatalyst/osx-x64/publish/TestingApp-macOS.zip
+        name: TestingApp-macOS
+        path: TestingApp/bin/Release/net8.0-maccatalyst/osx-x64/publish/TestingApp-macOS.zip
