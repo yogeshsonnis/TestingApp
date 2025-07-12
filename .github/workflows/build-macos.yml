@@ -24,26 +24,25 @@ jobs:
       run: dotnet restore TestingApp/TestingApp.csproj
 
     - name: 🚀 Publish .app for Mac Catalyst
-  run: dotnet publish TestingApp/TestingApp.csproj -f:net8.0-maccatalyst -c:Release
+      run: dotnet publish TestingApp/TestingApp.csproj -f:net8.0-maccatalyst -c:Release
 
-- name: 📂 List publish output
-  run: find TestingApp/bin -type d
+    - name: 📂 List all publish output folders (for debugging)
+      run: find TestingApp/bin -type d
 
-- name: 📁 Zip the .app
-  run: |
-    APP_PATH=$(find TestingApp/bin/Release -type d -name "*.app" | head -n 1)
-    if [ -d "$APP_PATH" ]; then
-      cd "$(dirname "$APP_PATH")"
-      zip -r TestingApp-macOS.zip "$(basename "$APP_PATH")"
-    else
-      echo "❌ .app not found!"
-      exit 1
-    fi
+    - name: 📁 Zip the .app
+      run: |
+        APP_PATH=$(find TestingApp/bin/Release -type d -name "*.app" | head -n 1)
+        if [ -d "$APP_PATH" ]; then
+          cd "$(dirname "$APP_PATH")"
+          zip -r TestingApp-macOS.zip "$(basename "$APP_PATH")"
+        else
+          echo "❌ .app not found!"
+          exit 1
+        fi
 
-- name: ☁️ Upload zipped .app
-  uses: actions/upload-artifact@v4
-  with:
-    name: TestingApp-macOS
-    path: |
-      **/TestingApp-macOS.zip
-
+    - name: ☁️ Upload zipped .app
+      uses: actions/upload-artifact@v4
+      with:
+        name: TestingApp-macOS
+        path: |
+          **/TestingApp-macOS.zip
